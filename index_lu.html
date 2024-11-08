@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Presentes de Natal</title>
+    <style>
+        /* Estilo do corpo e fundo */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #fffbf0;
+            background-image: url('https://images.unsplash.com/photo-1637488875853-871f85500fa6?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+            background-size: cover;
+			background-color: rgba(255, 255, 255, 0.5); /* Branco com 50% de transparência */
+			background-blend-mode: overlay;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            margin: 0;
+            overflow-y: auto; /* Permite rolagem vertical */
+            position: relative;
+            min-height: 100vh; /* Garante altura mínima para scroll */
+        }
+		
+		footer {
+			text-align: center;
+			padding: 10px;
+			font-size: 0.9em;
+			color: #555; /* Altere para a cor desejada */
+			background-color: #f1f1f1; /* Altere para a cor desejada */
+			position: fixed;
+			bottom: 0;
+			width: 100%;
+		}
+
+
+        /* Animação de neve caindo */
+        @keyframes snow {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(100vh); opacity: 0; }
+        }
+        
+        .snowflake {
+            position: absolute;
+            top: -10px;
+            color: #fff;
+            font-size: 1.5em;
+            animation: snow 10s linear infinite;
+            opacity: 0.8;
+        }
+        
+        /* Reposiciona cada floco de neve */
+        .snowflake:nth-child(2) { left: 10%; animation-delay: 2s; }
+        .snowflake:nth-child(3) { left: 20%; animation-delay: 4s; }
+        .snowflake:nth-child(4) { left: 30%; animation-delay: 6s; }
+        .snowflake:nth-child(5) { left: 40%; animation-delay: 8s; }
+        .snowflake:nth-child(6) { left: 50%; animation-delay: 10s; }
+        .snowflake:nth-child(7) { left: 60%; animation-delay: 12s; }
+        .snowflake:nth-child(8) { left: 70%; animation-delay: 14s; }
+        .snowflake:nth-child(9) { left: 80%; animation-delay: 16s; }
+        .snowflake:nth-child(10) { left: 90%; animation-delay: 18s; }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+        }
+
+        /* Boas-vindas natalinas */
+        .header {
+            font-size: 2em;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #b22222;
+            text-shadow: 2px 2px 4px #228B22;
+            font-weight: bold;
+        }
+
+        /* Bloco de cada pessoa */
+        .person-block {
+            background-color: #ffffff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            border: 3px solid #b22222;
+            position: relative;
+            transition: transform 0.3s;
+        }
+		
+		/* Decoração de natal - pequeno detalhe no topo do card */
+        .person-block:before {
+            content: "🎄🎁";
+            font-size: 1.5em;
+            position: absolute;
+            top: -10px;
+            right: 15px;
+            color: #b22222;
+        }
+
+        /* Nome da pessoa com estilo natalino */
+        .person-name {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #b22222;
+            margin-bottom: 10px;
+            text-align: center;
+            text-shadow: 1px 1px #228B22;
+        }
+
+        /* Estilo dos presentes */
+        .gifts-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+        }
+
+        .gift-card {
+            background-color: #fafafa;
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+            border: 2px solid #228B22;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+
+        .gift-card:hover {
+            transform: scale(1.05);
+        }
+		
+		.gift-card:before {
+            content: "⭐";
+            font-size: 1.5em;
+            color: gold;
+            position: absolute;
+            top: -10px;
+            right: 10px;
+        }
+
+        /* Imagem do presente */
+        .gift-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border: 2px solid #b22222;
+        }
+
+        /* Nome do presente */
+        .gift-name {
+            font-size: 1.1em;
+            color: #333;
+            margin: 5px 0;
+            font-weight: bold;
+        }
+
+        /* Descrição do presente */
+        .gift-descript {
+            font-size: 0.8em;
+            color: #333;
+            margin: 5px 0;
+            font-weight: bold;
+        }
+
+        /* Link do presente com estilo de botão */
+        .gift-link {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 12px;
+            background-color: #b22222;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s;
+        }
+
+        .gift-link:hover {
+            background-color: #228B22;
+        }
+    </style>
+</head>
+<body>
+    <!-- Efeito de neve caindo -->
+    <div class="snowflake">❄️</div>
+    <div class="snowflake">❄️</div>
+    <div class="snowflake">❄️</div>
+    <div class="snowflake">❄️</div>
+    <div class="snowflake">❄️</div>
+    <div class="snowflake">❄️</div>
+    <div class="snowflake">❄️</div>
+    <div class="snowflake">❄️</div>
+    <div class="snowflake">❄️</div>
+    <div class="snowflake">❄️</div>
+
+    <div class="container">
+        <div class="header">🎅 Amigo Secreto! 🎄</div>
+        <!-- Conteúdo dos presentes continua aqui -->
+		<!-- Exemplo de bloco de uma pessoa -->
+        <div class="person-block">
+            <div class="person-name">Sugestões para Luizão</div>
+            <div class="gifts-container">
+                <!-- Exemplo de card de presente -->
+                <div class="gift-card">
+                    <img src="https://http2.mlstatic.com/D_NQ_NP_720119-MLB76565093354_062024-O.webp" alt="Imagem do Presente">
+                    <div class="gift-name">Kit Com 10 Pares Meias - Mash</div>
+					<div class="gift-descript">Cores Brancas - Tamanho G</div>
+                    <a href="https://produto.mercadolivre.com.br/MLB-3718380393-kit-com-10-pares-meias-invisivel-sapatilha-mash-soquete-_JM#polycard_client=mshops-appearance-api&type=item&tracking_id=93af0234-cb56-44be-ba7a-30eb9e81dd8c&source=eshops" class="gift-link" target="_blank">Comprar</a>
+                </div>
+                <!-- Duplicar card para adicionar mais presentes -->
+                <div class="gift-card">
+                    <img src="https://imgcentauro-a.akamaihd.net/768x768/M0OOA701.jpg" alt="Imagem do Presente">
+                    <div class="gift-name">Kit de Meias Nike com 3 Pares</div>
+					<div class="gift-descript">Cores Brancas - Tamanho G</div>
+                    <a href="https://www.centauro.com.br/meia-nike-everyday-lightweight-unissex--3-pares--m0ooa7-mktp.html?cor=01&awc=17806_1730996014_b275809c3bd9ba75a2b1e6bd50956fa8&utm_source=awin&utm_medium=950589&utm_campaign=xet+das+promo%C3%A7%C3%B5es_awin&utm_content=&utm_term=17806_1730996014_b275809c3bd9ba75a2b1e6bd50956fa8" class="gift-link" target="_blank">Comprar</a>
+                </div>
+				<div class="gift-card">
+                    <img src="https://static.netshoes.com.br/produtos/camiseta-tommy-hilfiger-essential-masculina/06/I6J-2656-006/I6J-2656-006_zoom1.jpg?ts=1728045117?ims=1088x" alt="Imagem do Presente">
+                    <div class="gift-name">Camiseta Tommy Hilfiger Essential Masculina</div>
+					<div class="gift-descript">Preta - Tamanho G</div>
+                    <a href="https://www.netshoes.com.br/p/camiseta-tommy-hilfiger-essential-masculina-preto-I6J-2656-006?af_sub1=43984&pid=rakuten_int&af_channel=Affiliates&af_media_type=web&af_adset_id=43984&af_sub_siteID=jkOHXABAAuM-YPaH82k.jCyzbRvPGA4NCA&af_click_lookback=7d&clickid=jkOHXABAAuM-YPaH82k.jCyzbRvPGA4NCA&is_retargeting=true&campaign=afil_rakuten&utm_source=me-s_pgit__&utm_medium=post&utm_campaign=me-s_pgit-_-tnfild__tca___-_-post-_-_var_me_pgit_%3A%3AN3T%3AAF-PG-00-00-00-TD-00-MAS-00%3AN3T%3A%3A_xet%20das%20promo%C3%A7%C3%B5es%20-%20TWITTER_&utm_term=jkOHXABAAuM-YPaH82k.jCyzbRvPGA4NCA&utm_content=jkOHXABAAuM-YPaH82k.jCyzbRvPGA4NCA&ranMID=43984&ranU1=&ranEAID=jkOHXABAAuM-YPaH82k.jCyzbRvPGA4NCA&ranSiteID=jkOHXABAAuM-YPaH82k.jCyzbRvPGA4NCA" class="gift-link" target="_blank">Comprar</a>
+                </div>
+				<div class="gift-card">
+                    <img src="https://http2.mlstatic.com/D_NQ_NP_960268-MLB79662377675_092024-O.webp" alt="Imagem do Presente">
+                    <div class="gift-name">Camiseta Insider Gola V</div>
+					<div class="gift-descript">Azul Marinho - Tamanho G</div>
+                    <a href="https://produto.mercadolivre.com.br/MLB-3143524825-camiseta-basica-tech-insider-gola-v-_JM?attributes=COLOR_SECONDARY_COLOR%3AQXp1bC1tYXJpbmhv&quantity=1" class="gift-link" target="_blank">Comprar</a>
+                </div>
+				<div class="gift-card">
+                    <img src="https://http2.mlstatic.com/D_NQ_NP_867741-MLB79771043790_102024-O.webp" alt="Imagem do Presente">
+                    <div class="gift-name">Camiseta Insider</div>
+					<div class="gift-descript">Azul Marinho - Tamanho G</div>
+                    <a href="https://produto.mercadolivre.com.br/MLB-3193860320-camiseta-basica-tech-insider-masculina-_JM?attributes=COLOR_SECONDARY_COLOR%3AQ2FybWVuZXJl&quantity=1" class="gift-link" target="_blank">Comprar</a>
+                </div>
+				<div class="gift-card">
+                    <img src="https://acdn.mitiendanube.com/stores/002/528/360/products/camiseta_linha_leve_creme_0006_2d0f58df-ac91-4898-85f8-3677c26ce343-3828641d9305abefe117302317532672-1024-1024.webp" alt="Imagem do Presente">
+                    <div class="gift-name">Camiseta Romã</div>
+					<div class="gift-descript">Creme - Tamanho G</div>
+                    <a href="https://camisetasroma.com.br/produtos/camiseta-leve-creme/" class="gift-link" target="_blank">Comprar</a>
+                </div>
+				<div class="gift-card">
+                    <img src="https://http2.mlstatic.com/D_NQ_NP_718573-MLB79888067418_102024-O.webp" alt="Imagem do Presente">
+                    <div class="gift-name">Cueca Lupo</div>
+					<div class="gift-descript">Sortidas - Tamanho G</div>
+                    <a href="https://produto.mercadolivre.com.br/MLB-3350334333-kit-4-cuecas-boxer-lupo-em-algodo-masculina-cotton-original-_JM?attributes=COLOR_SECONDARY_COLOR%3AU29ydGlkYQ%3D%3D&quantity=1" class="gift-link" target="_blank">Comprar</a>
+                </div>
+				<div class="gift-card">
+                    <img src="https://product-data.raiadrogasil.io/images/4498172.webp?width=450&height=450&quality=85&type=resize" alt="Imagem do Presente">
+                    <div class="gift-name">Perfume Lomanicode</div>
+					<div class="gift-descript">Pode ser esse ou qualquer um bom</div>
+                    <a href="https://www.drogasil.com.br/lomani-code-for-men-eau-de-toilette-100ml-694331.html?gad_source=1&gclid=Cj0KCQiA57G5BhDUARIsACgCYnxi20KYyoguyQ1t-zolO3BXmZ6rEHEu8UsLvMCo0cvFAkB56fh3ATAaAopoEALw_wcB" class="gift-link" target="_blank">Comprar</a>
+                </div>
+				<div class="gift-card">
+                    <img src="https://www.gsuplementos.com.br/upload/produto/layout/185/image01-interna.webp" alt="Imagem do Presente">
+                    <div class="gift-name">Whey da Growth</div>
+					<div class="gift-descript">Sabor Chocolate MilkShake</div>
+                    <a href="https://www.gsuplementos.com.br/whey-protein-concentrado-1kg-growth-supplements-p985936?gad_source=1&gclid=Cj0KCQiA57G5BhDUARIsACgCYnxQsM_2AY3_2nb32gGhffpAAnpPMhs9UY-5xXii1JvrswQdWa2TyroaAvtkEALw_wcB" class="gift-link" target="_blank">Comprar</a>
+                </div>
+				<div class="gift-card">
+                    <img src="https://http2.mlstatic.com/D_NQ_NP_815175-MLA75595879321_042024-O.webp" alt="Imagem do Presente">
+                    <div class="gift-name">Creatina</div>
+					<div class="gift-descript">Se for dar o Whey, de a creatina junto!</div>
+                    <a href="https://www.mercadolivre.com.br/suplemento-em-po-monohidratada-hardcore-300g-integralmedica-sabor-neutro/p/MLB6204289?pdp_filters=item_id%3AMLB3159605010&from=gshop&matt_tool=61946526&matt_word=&matt_source=google&matt_campaign_id=14302214877&matt_ad_group_id=124787843446&matt_match_type=&matt_network=g&matt_device=c&matt_creative=539425484761&matt_keyword=&matt_ad_position=&matt_ad_type=pla&matt_merchant_id=735125422&matt_product_id=MLB6204289-product&matt_product_partition_id=2269862322468&matt_target_id=pla-2269862322468&cq_src=google_ads&cq_cmp=14302214877&cq_net=g&cq_plt=gp&cq_med=pla&gad_source=1&gclid=Cj0KCQiA57G5BhDUARIsACgCYnwgH0VT227F9v7hQX_-x7FjH294PTr-Xu24LgAFCoKOQx49ygAuOikaAl-wEALw_wcB" class="gift-link" target="_blank">Comprar</a>
+                </div>
+				<div class="gift-card">
+                    <img src="https://static.netshoes.com.br/produtos/kit-camisetas-hering-basicas-com-3-pecas-masculinas/28/9NC-0383-028/9NC-0383-028_zoom1.jpg?ts=1695699215?ims=1088x" alt="Imagem do Presente">
+                    <div class="gift-name">Kit Camiseta Hering</div>
+					<div class="gift-descript">Cores Sortidas - Tamanho G</div>
+                    <a href="https://www.netshoes.com.br/p/kit-camisetas-hering-basicas-com-3-pecas-masculinas-branco+preto-9NC-0383-028?campaign=gglepqpla&gad_source=1&gclid=Cj0KCQiA57G5BhDUARIsACgCYnxe8Pk5ccn9VdUoOyN8WIpFypWdXurMjnEnGF9mg2BGiKHddj0PzVAaAox6EALw_wcB&gclsrc=aw.ds" class="gift-link" target="_blank">Comprar</a>
+                </div>
+				<div class="gift-card">
+                    <img src="https://static.netshoes.com.br/produtos/camisa-sao-paulo-ii-2425-sn-viagem-new-balance-masculina/96/39U-9308-196/39U-9308-196_zoom1.jpg?ts=1723706765?ims=1088x" alt="Imagem do Presente">
+                    <div class="gift-name">Camiseta São Paulo</div>
+					<div class="gift-descript">Tamanho G</div>
+                    <a href="https://www.netshoes.com.br/p/camisa-sao-paulo-ii-2425-sn-viagem-new-balance-masculina-cinza+marinho-39U-9308-196?campaign=gglepqpla&campaign=afil_rakuten&gad_source=1&gclid=Cj0KCQiA57G5BhDUARIsACgCYnzIwlLh0_4zm_nDGegQgO5xU0Z6hR9HQWCZezSvziOtf86I6bjLr_4aAt47EALw_wcB&gclsrc=aw.ds&af_sub1=43984&pid=rakuten_int&af_channel=Affiliates&af_media_type=web&af_adset_id=43984&af_sub_siteID=AD7D4g.56f4-zkbSjmxUA2eKJ3fj_KltcQ&af_click_lookback=7d&clickid=AD7D4g.56f4-zkbSjmxUA2eKJ3fj_KltcQ&is_retargeting=true&utm_source=me-s_pgit__&utm_medium=post&utm_campaign=me-s_pgit-_-tnfild__tca___-_-post-_-_var_me_pgit_%3A%3AN3T%3AAF-PG-00-00-00-TD-00-MAS-00%3AN3T%3A%3A_Pelando_&utm_term=AD7D4g.56f4-zkbSjmxUA2eKJ3fj_KltcQ&utm_content=AD7D4g.56f4-zkbSjmxUA2eKJ3fj_KltcQ&ranMID=43984&ranU1=254338379&ranEAID=AD7D4g.56f4-zkbSjmxUA2eKJ3fj_KltcQ&ranSiteID=AD7D4g.56f4-zkbSjmxUA2eKJ3fj_KltcQ" class="gift-link" target="_blank">Comprar</a>
+                </div>
+            </div>
+    </div>
+</body>
+</html>
